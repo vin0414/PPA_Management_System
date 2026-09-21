@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Services\Action;
 use App\Services\Log;
 use App\Models\Project;
@@ -45,6 +46,10 @@ class Home extends Controller
     public function profile()
     {
         $data['title'] = "My Profile";
+        $data['logs'] = DB::table('logs as l')
+                        ->join('users as u','u.id','=','l.id')
+                        ->select('u.name','l.activity','l.ip_address','l.agent','l.created_at')
+                        ->get();
         return view('pages.profile',$data);
     }
 
@@ -390,4 +395,6 @@ class Home extends Controller
             ]);
         }
     }
+
+    //fetch project resources
 }
