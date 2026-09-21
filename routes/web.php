@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\Authentication;
 
+Route::get('/',[Home::class,'dashboard'])->name('/');
 Route::middleware('guest')->group(function ()
 {
-    Route::get('/',[Home::class,'index'])->name('/');
-    Route::post('/',[Authentication::class,'login'])->name('post');
+    Route::get('auth',[Home::class,'index'])->name('auth');
+    Route::post('auth',[Authentication::class,'login'])->name('auth.post');
 });
 Route::middleware(['auth','prevent'])->group(function ()
 {
-    Route::get('dashboard',[Home::class,'dashboard'])->name('dashboard');
     Route::get('profile',[Home::class,'profile'])->name('profile');
     Route::get('settings',[Home::class,'settings'])->name('settings');
     Route::get('logout',[Authentication::class,'logout'])->name('logout');

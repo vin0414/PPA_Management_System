@@ -4,6 +4,7 @@
 <div class="page-body">
     <div class="container p-4">
         <div class="tabs tabs-box">
+            @auth
             <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
                 aria-label="Activity Proposal Form" checked="checked" />
             <div class="tab-content">
@@ -190,7 +191,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="grid grid-cols-12 gap-4">
+                        <div class="grid grid-cols-12 gap-4 mb-3">
                             <div class="col-span-12 md:col-span-6">
                                 <label class="form-control w-full">
                                     <div class="label py-0.5">
@@ -226,7 +227,27 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-control mt-6">
+                        <div class="grid-cols-12">
+                            <span class="text-warning font-bold">AUTOMATED COMPUTATION</span>
+                            <div class="card bg-base-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="grid grid-cols-12 gap-4">
+                                        <div class="col-span-12 md:col-span-9">
+                                            <h2 class="text-xl font-bold" id="investment_priority">0</h2>
+                                            <p
+                                                class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
+                                                Investment Priority (Equity × Alignment, 1–25)
+                                            </p>
+                                        </div>
+                                        <div class="col-span-12 md:col-span-3">
+                                            <h2 class="text-md" id="investment_priority">Remarks</h2>
+                                            <span class="badge bg-secondary">Awaiting Response</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-control mt-6">
                             <button type="submit" class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
                                 Save Proposal
                             </button>
@@ -237,9 +258,9 @@
                     </div>
                 </form>
             </div>
-
+            @endAuth
             <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
-                aria-label="Consolidated Dashboard" />
+                aria-label="Consolidated Dashboard" @guest checked="checked" @endguest />
             <div class="tab-content">
                 <div class="grid gap-3">
                     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">

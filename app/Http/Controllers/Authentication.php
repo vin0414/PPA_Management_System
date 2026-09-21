@@ -74,7 +74,7 @@ class Authentication extends Controller
             //log the event log
             $this->logService->saveLogs(Auth::id(),'User Logged In',$request->ip(),$request->header('User-Agent'));
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
     }
     public function logout(Request $request)
