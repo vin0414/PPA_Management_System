@@ -7,9 +7,12 @@
             2026–2031</small>
     </div>
     <div class="flex-none">
-        <div class="dropdown text-white">
+        <div class="dropdown text-white mr-2">
             <small>Mainam na ARAL – Wastong ALAGA – Mabuting ASAL</small>
         </div>
+        @guest
+        <a href="{{ url('auth') }}" class="btn bg-blue-950 text-white btn-sm justify-end">Sign In</a>
+        @endguest
         @auth
         <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">

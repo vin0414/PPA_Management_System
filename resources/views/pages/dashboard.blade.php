@@ -241,7 +241,8 @@
                                         </div>
                                         <div class="col-span-12 md:col-span-3">
                                             <h2 class="text-md" id="investment_priority">Remarks</h2>
-                                            <span class="badge bg-secondary">Awaiting Response</span>
+                                            <span class="badge bg-neutral text-white" id="remarks">Awaiting
+                                                Response</span>
                                         </div>
                                     </div>
                                 </div>

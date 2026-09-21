@@ -18,7 +18,7 @@ class Authenticate
     {
         if(!Auth::check())
         {
-            return redirect('/')->with('error','Please login to continue');
+            return redirect('/auth')->with('error','Please login to continue');
         }
         return $next($request);
     }
