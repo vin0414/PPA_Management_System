@@ -8,16 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\Action;
 use App\Services\Log;
+use App\Services\Dashboard;
 use App\Models\Project;
 
 class Home extends Controller
 {
     protected $action;
     protected $logService;
-    public function __construct(Action $action, Log $logService)
+    protected $dashboard;
+    public function __construct(Action $action, Log $logService, Dashboard $dashboard)
     {
         $this->action = $action;
         $this->logService = $logService;
+        $this->dashboard = $dashboard;
     }
 
     public function index()
@@ -29,6 +32,12 @@ class Home extends Controller
     public function dashboard()
     {
         $data['title'] = "Dashboard";
+        $data['proposals'] = $this->dashboard->fetchProposals();
+        $data['total'] = $this->dashboard->totalProposal();
+        $data['budget'] = $this->dashboard->totalProposedBudget();
+        $data['low'] = $this->dashboard->totalLowPriority();
+        $data['moderate'] = $this->dashboard->totalModeratePriority();
+        $data['high'] = $this->dashboard->totalHighPriority();
         return view('pages.dashboard',$data);
     }
 
@@ -396,5 +405,16 @@ class Home extends Controller
         }
     }
 
-    //fetch project resources
+    //fetch activity resources
+
+    public function fetchProjects(Request $request)
+    {
+        $value = $request->input('value');
+        $data = $this->dashboard->fetchProjects($value);
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
 }

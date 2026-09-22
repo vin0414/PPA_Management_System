@@ -15,10 +15,12 @@ Route::middleware(['auth','prevent'])->group(function ()
     Route::get('profile',[Home::class,'profile'])->name('profile');
     Route::get('settings',[Home::class,'settings'])->name('settings');
     Route::get('logout',[Authentication::class,'logout'])->name('logout');
-    //actions
+    //filing
+    Route::get('projects.fetch',[Home::class,'fetchProjects'])->name('projects.fetch');
+    //settings
     Route::post('password/change',[Authentication::class,'changePassword'])->name('password.change');
-    Route::post('project/save',[Home::class,'saveProject'])->name('projects.save');
-    Route::post('project/remove',[Home::class,'removeProject'])->name('projects.remove');
+    Route::post('projects/save',[Home::class,'saveProject'])->name('projects.save');
+    Route::post('projects/remove',[Home::class,'removeProject'])->name('projects.remove');
     Route::post('lead/save',[Home::class,'saveLeadMeasure'])->name('lead.save');
     Route::post('lead/remove',[Home::class,'removeLeadMeasure'])->name('lead.remove');
     Route::post('strategies/save',[Home::class,'saveStrategy'])->name('strategies.save');

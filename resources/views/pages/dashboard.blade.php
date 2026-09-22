@@ -268,7 +268,7 @@
                         <!-- Card 1: Total Proposals -->
                         <div class="card bg-base-100 shadow-sm border border-t-4">
                             <div class="card-body">
-                                <h2 class="text-xl font-bold">0</h2>
+                                <h2 class="text-xl font-bold">{{ $total }}</h2>
                                 <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Total
                                     Proposals</p>
                             </div>
@@ -277,7 +277,7 @@
                         <!-- Card 2: Budget -->
                         <div class="card bg-base-100 shadow-sm border border-t-4">
                             <div class="card-body">
-                                <h2 class="text-xl font-bold">₱ 0.00</h2>
+                                <h2 class="text-xl font-bold">₱ {{ number_format($budget,2) }}</h2>
                                 <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Proposed
                                     Budget</p>
                             </div>
@@ -286,7 +286,7 @@
                         <!-- Card 3: High Priority -->
                         <div class="card bg-base-100 shadow-sm border border-t-4">
                             <div class="card-body">
-                                <h2 class="text-xl font-bold">0</h2>
+                                <h2 class="text-xl font-bold">{{ $high }}</h2>
                                 <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">High
                                     Priority</p>
                             </div>
@@ -295,7 +295,7 @@
                         <!-- Card 4: Moderate Priority -->
                         <div class="card bg-base-100 shadow-sm border border-t-4">
                             <div class="card-body">
-                                <h2 class="text-xl font-bold">0</h2>
+                                <h2 class="text-xl font-bold">{{ $moderate }}</h2>
                                 <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Moderate
                                     Priority</p>
                             </div>
@@ -304,7 +304,7 @@
                         <!-- Card 5: New Metric (e.g., Low Priority or Approved) -->
                         <div class="card bg-base-100 shadow-sm border border-t-4">
                             <div class="card-body">
-                                <h2 class="text-xl font-bold">0</h2>
+                                <h2 class="text-xl font-bold">{{ $low }}</h2>
                                 <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Low
                                     Priority</p>
                             </div>
@@ -429,4 +429,27 @@
         </div>
     </div>
 </div>
+<script>
+$('#pillar').change(function() {
+    let value = $(this).val();
+    $.ajax({
+        url: "{{ route('projects.fetch') }}",
+        method: "GET",
+        data: {
+            value: value
+        },
+        success: function(response) {
+            console.log(response.data);
+            let projectSelect = $('#project');
+            projectSelect.empty();
+            projectSelect.append('<option value="" disabled selected>Select a project</option>');
+            $.each(response.data, function(key, project) {
+                projectSelect.append(
+                    `<option value="${project.project_id}">${project.project_details}</option>`
+                );
+            });
+        }
+    });
+});
+</script>
 @endsection
