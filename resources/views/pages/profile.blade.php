@@ -50,6 +50,19 @@
                                                     value="{{ Auth::user()->email }}" readonly />
                                             </label>
                                         </div>
+                                        <div class="grid-cols-12">
+                                            <label class="form-control w-full">
+                                                <div class="label py-0.5">
+                                                    <span
+                                                        class="label-text-alt text-xs font-semibold text-base-content/70">
+                                                        ACCOUNT CREATION
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="input w-full"
+                                                    value="{{ date('M d, Y h:i A',strtotime(Auth::user()->created_at)) }}"
+                                                    readonly />
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -58,6 +71,70 @@
                             <div class="card bg-base-100 shadow-sm">
                                 <div class="card-body">
                                     <div class="card-title">Account Security</div>
+                                    <form method="POST" class="grid gap-4" id="form">
+                                        @csrf
+                                        <div class="grid-cols-12">
+                                            <label class="form-control w-full">
+                                                <div class="label py-0.5">
+                                                    <span
+                                                        class="label-text-alt text-xs font-semibold text-base-content/70">
+                                                        CURRENT PASSWORD
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="input w-full" name="current_password"
+                                                    id="current_password">
+                                                <div id="current_password-error"
+                                                    class="error-message label-text-alt text-error">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="grid-cols-12">
+                                            <label class="form-control w-full">
+                                                <div class="label py-0.5">
+                                                    <span
+                                                        class="label-text-alt text-xs font-semibold text-base-content/70">
+                                                        NEW PASSWORD
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="input w-full" name="new_password"
+                                                    id="new_password">
+                                                <div id="new_password-error"
+                                                    class="error-message label-text-alt text-error">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="grid-cols-12">
+                                            <label class="form-control w-full">
+                                                <div class="label py-0.5">
+                                                    <span
+                                                        class="label-text-alt text-xs font-semibold text-base-content/70">
+                                                        CONFIRM PASSWORD
+                                                    </span>
+                                                </div>
+                                                <input type="password" class="input w-full" name="confirm_password"
+                                                    id="confirm_password">
+                                                <div id="confirm_password-error"
+                                                    class="error-message label-text-alt text-error">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div class="form-control">
+                                                <label class="label cursor-pointer gap-2">
+                                                    <input type="checkbox" name="show"
+                                                        class="checkbox checkbox-primary checkbox-sm"
+                                                        id="showPassword" />
+                                                    <span class="label-text text-sm">Show Password</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="grid-cols-12">
+                                            <button type="submit" id="saveBtn"
+                                                class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white disabled:opacity-50 flex items-center justify-center gap-2">
+                                                <span class="btn-text">Save Changes</span>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -95,5 +172,64 @@
 </div>
 <script>
 $('#tbl_logs').DataTable();
+$('#showPassword').change(function() {
+    togglePasswordVisibility(["current_password", "new_password", "confirm_password"]);
+});
+
+function togglePasswordVisibility(ids) {
+    ids.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.type = input.type === "password" ? "text" : "password";
+        }
+    });
+}
+
+$('#form').submit(function(e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    $('.error-message').html('');
+    let btn = $('#saveBtn');
+    $.ajax({
+        url: "{{ route('password.change') }}",
+        method: "POST",
+        data: data,
+        beforeSend: function() {
+            btn.prop('disabled', true);
+            btn.html(`
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Processing...</span>
+                `);
+        },
+        success: function(response) {
+            if (response.status === 200) {
+                alertify.alert(
+                    'Success',
+                    response.message,
+                    function() {
+                        location.reload();
+                    }
+                );
+            } else {
+                var errors = response.errors;
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field][0] + '</p>');
+                    $('[name="' + field + '"]').addClass('is-invalid');
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Something went wrong.');
+        },
+        complete: function() {
+            // Use your variable here to reset the button
+            btn.prop('disabled', false);
+            btn.html('<span class="btn-text">Save Change</span>');
+        }
+    });
+});
 </script>
 @endsection

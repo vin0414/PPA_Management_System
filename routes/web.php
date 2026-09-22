@@ -16,6 +16,7 @@ Route::middleware(['auth','prevent'])->group(function ()
     Route::get('settings',[Home::class,'settings'])->name('settings');
     Route::get('logout',[Authentication::class,'logout'])->name('logout');
     //actions
+    Route::post('password/change',[Authentication::class,'changePassword'])->name('password.change');
     Route::post('project/save',[Home::class,'saveProject'])->name('projects.save');
     Route::post('project/remove',[Home::class,'removeProject'])->name('projects.remove');
     Route::post('lead/save',[Home::class,'saveLeadMeasure'])->name('lead.save');

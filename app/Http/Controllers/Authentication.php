@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
@@ -91,5 +93,65 @@ class Authentication extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect("/")->with('error','You are logged out!');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $id = Auth::user()->id;
+        $validator = Validator::make($request->all(),[
+            'current_password' => [
+                'required','min:8','max:255',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ],
+            'new_password' => [
+                'required','min:8','max:255',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ],
+            'confirm_password'=>[
+                'required','same:new_password'
+            ]
+        ], [
+            // Password errors
+            'current_password.required' => 'Password is required.',
+            'current_password.min' => 'Password must be at least 8 characters.',
+            'current_password.max' => 'Password must not exceed 255 characters.',
+            'current_password.regex' => 'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'new_password.required' => 'Password is required.',
+            'new_password.min' => 'Password must be at least 8 characters.',
+            'new_password.max' => 'Password must not exceed 255 characters.',
+            'new_password.regex' => 'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'confirm_password.required' => 'Password is required.',
+            'confirm_password.same' => 'Mismatch password. Please try again',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors(),
+            ]);
+        }
+        else
+        {
+            $account = User::where('id',$id)->first();
+            if (Hash::check($request->input('new_password'), $account->password)) {
+                return response()->json([
+                    'status' => 422,
+                    'errors' => [
+                        'new_password' => ['Please create a new password different from the current one']
+                    ]
+                ]);
+            }
+            else
+            {
+                DB::table('users')
+                ->where('id',$id)
+                ->update([
+                    'password'=>Hash::make($request->input('new_password'))
+                ]);
+                return response()->json([
+                    'status' => 200,
+                    'success' => 'Successfully applied changes',
+                ]);
+            }
+        }
     }
 }
