@@ -79,7 +79,9 @@ class Home extends Controller
             'activity_type'   => 'required|integer',
             'tier_category'   => 'required|string',
             'equity_index'    => 'required|integer',
-            'target_alignment'=> 'required|integer'
+            'target_alignment'=> 'required|integer',
+            'level'           => 'required',
+            'score'           => 'required'
         ],[
             'goal.required'         => 'Please select a goal',
             'pillar.required'       => 'Please select a pillar',

@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Proposal;
 use App\Models\Project;
 use App\Models\Lead_Measure;
@@ -22,7 +23,7 @@ class Dashboard
 
     public function totalLowPriority()
     {
-        return Proposal::where('priority_level',1)->count();
+        return Proposal::where('priority_level',3)->count();
     }
 
     public function totalModeratePriority()
@@ -32,7 +33,7 @@ class Dashboard
 
     public function totalHighPriority()
     {
-        return Proposal::where('priority_level',3)->count();
+        return Proposal::where('priority_level',1)->count();
     }
 
     public function fetchProposals()
@@ -67,6 +68,24 @@ class Dashboard
 
     public function saveProposal($data)
     {
-        return "";
+        return Proposal::create([
+            'goal'            => $data['goal'],
+            'pillar'          => $data['pillar'],
+            'project_id'      => $data['project'],
+            'lead_id'         => $data['lead_measure'],
+            'strategy_id'     => $data['strategy'],
+            'output_id'       => $data['output'],
+            'target_id'       => $data['target'],
+            'proponent'       => $data['proponent'],
+            'activity_title'  => $data['activity'],
+            'amount'          => str_replace(',', '', $data['amount']),
+            'activity_type'   => $data['activity_type'],
+            'tier'            => $data['tier_category'],
+            'equity_index'    => $data['equity_index'],
+            'target_alignment'=> $data['target_alignment'],
+            'priority_level'  => $data['level'],
+            'score'           => $data['score'],
+            'id'              => Auth::id()
+        ]);
     }
 }
