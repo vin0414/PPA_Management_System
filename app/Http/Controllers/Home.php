@@ -406,11 +406,50 @@ class Home extends Controller
     }
 
     //fetch activity resources
-
     public function fetchProjects(Request $request)
     {
         $value = $request->input('value');
         $data = $this->dashboard->fetchProjects($value);
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
+    public function fetchLeadMeasure(Request $request)
+    {
+        $value = $request->input('value');
+        $data = $this->dashboard->fetchLeadMeasure($value);
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
+    public function fetchStrategy(Request $request)
+    {
+        $value = $request->input('value');
+        $data = $this->dashboard->fetchStrategy($value);
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
+    public function fetchOutput(Request $request)
+    {
+        $value = $request->input('value');
+        $data = $this->dashboard->fetchOutput($value);
+        return response()->json([
+            'status'=>200,
+            'data'=>$data
+        ]);
+    }
+
+    public function fetchTarget(Request $request)
+    {
+        $value = $request->input('value');
+        $data = $this->dashboard->fetchTarget($value);
         return response()->json([
             'status'=>200,
             'data'=>$data

@@ -324,6 +324,18 @@
                                                 </div>
                                                 <select class="select select-bordered w-full" name="project">
                                                     <option disabled selected>All Projects</option>
+                                                    <option>I-CARE</option>
+                                                    <option>SINULID</option>
+                                                    <option>SAGIP</option>
+                                                    <option>LINGAP</option>
+                                                    <option>ISSHED</option>
+                                                    <option>UX</option>
+                                                    <option>SALIKSIK</option>
+                                                    <option>QMS-EOMS</option>
+                                                    <option>OK sa DepEd</option>
+                                                    <option>SECURE-PUSO</option>
+                                                    <option>DRRM-SAFE</option>
+                                                    <option>HUMANE</option>
                                                 </select>
                                             </label>
                                         </div>
@@ -451,5 +463,101 @@ $('#pillar').change(function() {
         }
     });
 });
+
+$('#project').change(function() {
+    lead($(this).val());
+    strategy($(this).val());
+    output($(this).val());
+    target($(this).val());
+});
+
+function lead(id) {
+    $.ajax({
+        url: "{{ route('lead_measure.fetch') }}",
+        method: "GET",
+        data: {
+            value: id
+        },
+        success: function(response) {
+            console.log(response.data);
+            let leadSelect = $('#lead_measure');
+            leadSelect.empty();
+            leadSelect.append('<option value="" disabled selected>Select a lead measure</option>');
+            $.each(response.data, function(key, project) {
+                leadSelect.append(
+                    `<option value="${project.lead_id}">${project.lead}</option>`
+                );
+            });
+        }
+    });
+}
+
+function strategy(id) {
+    $.ajax({
+        url: "{{ route('strategies.fetch') }}",
+        method: "GET",
+        data: {
+            value: id
+        },
+        success: function(response) {
+            console.log(response.data);
+            let stratSelect = $('#strategy');
+            stratSelect.empty();
+            stratSelect.append('<option value="" disabled selected>Select a strategy</option>');
+            $.each(response.data, function(key, project) {
+                stratSelect.append(
+                    `<option value="${project.strategy_id}">${project.name_of_strategy}</option>`
+                );
+            });
+        }
+    });
+}
+
+function output(id) {
+    $.ajax({
+        url: "{{ route('output.fetch') }}",
+        method: "GET",
+        data: {
+            value: id
+        },
+        success: function(response) {
+            console.log(response.data);
+            let outputSelect = $('#output');
+            outputSelect.empty();
+            outputSelect.append('<option value="" disabled selected>Select an output</option>');
+            $.each(response.data, function(key, project) {
+                outputSelect.append(
+                    `<option value="${project.output_id}">${project.output}</option>`
+                );
+            });
+        }
+    });
+}
+
+function target(id) {
+    $.ajax({
+        url: "{{ route('targets.fetch') }}",
+        method: "GET",
+        data: {
+            value: id
+        },
+        success: function(response) {
+            console.log(response.data);
+            let targetSelect = $('#target');
+            targetSelect.empty();
+            targetSelect.append('<option value="" disabled selected>Select a target</option>');
+            $.each(response.data, function(key, project) {
+                targetSelect.append(
+                    `<option value="${project.target_id}">${project.target_details}</option>`
+                );
+            });
+        }
+    });
+}
+
+//compute the investment priority
+function computePriorityLevel() {
+
+}
 </script>
 @endsection

@@ -1,9 +1,12 @@
 <?php
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Models\Proposal;
 use App\Models\Project;
+use App\Models\Lead_Measure;
+use App\Models\Strategy;
+use App\Models\Output;
+use App\Models\Target;
 
 class Dashboard
 {
@@ -34,11 +37,31 @@ class Dashboard
 
     public function fetchProposals()
     {
-        return "";
+        return DB::table('proposals as p')->paginate(10);
     }
 
     public function fetchProjects($id)
     {
         return Project::where('category',$id)->get();
+    }
+
+    public function fetchLeadMeasure($id)
+    {
+        return Lead_Measure::where('project_id',$id)->get();
+    }
+
+    public function fetchStrategy($id)
+    {
+        return Strategy::where('project_id',$id)->get();
+    }
+
+    public function fetchOutput($id)
+    {
+        return Output::where('project_id',$id)->get();
+    }
+
+    public function fetchTarget($id)
+    {
+        return Target::where('project_id',$id)->get();
     }
 }
