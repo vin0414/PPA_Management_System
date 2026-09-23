@@ -63,7 +63,69 @@ class Home extends Controller
     }
 
     //actions here
-
+    public function saveProposal(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'goal'            => 'required|string',
+            'pillar'          => 'required|string',
+            'project'         => 'required|integer',
+            'lead_measure'    => 'required|integer',
+            'strategy'        => 'required|integer',
+            'output'          => 'required|integer',
+            'target'          => 'required|integer',
+            'proponent'       => 'required|string|max:255',
+            'activity'        => 'required|string|max:255',
+            'amount'          => 'required|numeric|gt:0|decimal:0,2',
+            'activity_type'   => 'required|integer',
+            'tier_category'   => 'required|string',
+            'equity_index'    => 'required|integer',
+            'target_alignment'=> 'required|integer'
+        ],[
+            'goal.required'         => 'Please select a goal',
+            'pillar.required'       => 'Please select a pillar',
+            'project.required'      => 'Please select a project',
+            'lead_measure.required' => 'Please select a lead measure',
+            'strategy.required'     => 'Please select a strategy',
+            'output.required'       => 'Please select an output',
+            'target.required'       => 'Please select a target',
+            'proponent.required'    => 'Please enter office, unit or school proposing this',
+            'activity.required'     => 'Please enter the title of the activity',
+            'amount.required'       => 'Please enter proposed budget',
+            'activity_type.required'=> 'Please select type of activity',
+            'tier_category.required'=> 'Please select tier',
+            'equity_index.required' => 'Please select equity index',
+            'target_alignment.required'=> 'Please select target alignment'
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->errors()
+            ]);
+        }
+        //save
+        $data = $this->dashboard->saveProposal($validator->validated());
+        if($data)
+        {
+            $this->logService->saveLogs(
+                Auth::id(),
+                'Submitted new proposal',
+                $request->ip(),
+                $request->header('User-Agent')
+            );
+            return response()->json([
+                'status'=>200,
+                'message'=>'Successfully saved entry'
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=>500,
+                'message'=>$data
+            ]);
+        }
+    }
     public function saveProject(Request $request)
     {
         $validator = Validator::make($request->all(),[

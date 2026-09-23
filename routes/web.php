@@ -21,6 +21,7 @@ Route::middleware(['auth','prevent'])->group(function ()
     Route::get('strategies.fetch',[Home::class,'fetchStrategy'])->name('strategies.fetch');
     Route::get('output.fetch',[Home::class,'fetchOutput'])->name('output.fetch');
     Route::get('targets.fetch',[Home::class,'fetchTarget'])->name('targets.fetch');
+    Route::post('proposals/save',[Home::class,'saveProposal'])->name('proposals.save')->middleware('throttle:3,1');
     //settings
     Route::post('password/change',[Authentication::class,'changePassword'])->name('password.change');
     Route::post('projects/save',[Home::class,'saveProject'])->name('projects.save');

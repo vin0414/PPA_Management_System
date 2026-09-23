@@ -8,7 +8,7 @@
             <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
                 aria-label="Activity Proposal Form" checked="checked" />
             <div class="tab-content">
-                <form method="POST" class="grid gap-4" id="form">
+                <form method="POST" class="grid gap-4" id="frmProposal">
                     @csrf
                     <div class="grid-cols-12">
                         <div class="card bg-base-100 shadow-sm card-body grid gap-4">
@@ -31,6 +31,7 @@
                                             <option value="ALAGA">ALAGA (Holistic Well-being & Safety)</option>
                                             <option value="ASAL">ASAL (Character & Values-driven Formation)</option>
                                         </select>
+                                        <div id="goal-error" class="error-message label-text-alt text-error"></div>
                                     </label>
                                 </div>
                                 <div class="col-span-12 md:col-span-4">
@@ -52,6 +53,7 @@
                                             </option>
                                             <option value="GALING">GALING (Human Resource Excellence)</option>
                                         </select>
+                                        <div id="pillar-error" class="error-message label-text-alt text-error"></div>
                                     </label>
                                 </div>
                                 <div class="col-span-12 md:col-span-4">
@@ -64,6 +66,7 @@
                                         <select class="select select-bordered w-full" name="project" id="project">
                                             <option disabled selected>Select a project</option>
                                         </select>
+                                        <div id="project-error" class="error-message label-text-alt text-error"></div>
                                     </label>
                                 </div>
                             </div>
@@ -77,6 +80,7 @@
                                     <select class="select select-bordered w-full" name="lead_measure" id="lead_measure">
                                         <option disabled selected>Select a lead measure</option>
                                     </select>
+                                    <div id="lead_measure-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="grid-cols-12">
@@ -89,6 +93,7 @@
                                     <select class="select select-bordered w-full" name="strategy" id="strategy">
                                         <option disabled selected>Select a strategy</option>
                                     </select>
+                                    <div id="strategy-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="grid-cols-12">
@@ -101,6 +106,7 @@
                                     <select class="select select-bordered w-full" name="output" id="output">
                                         <option disabled selected>Select an output</option>
                                     </select>
+                                    <div id="output-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="grid-cols-12">
@@ -113,6 +119,7 @@
                                     <select class="select select-bordered w-full" name="target" id="target">
                                         <option disabled selected>Select a target</option>
                                     </select>
+                                    <div id="target-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                         </div>
@@ -134,6 +141,7 @@
                                     </div>
                                     <input type="text" class="input w-full" name="proponent"
                                         placeholder="Office, unit or school proposing this" />
+                                    <div id="proponent-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="col-span-12 md:col-span-6">
@@ -145,6 +153,7 @@
                                     </div>
                                     <input type="text" class="input w-full" name="activity"
                                         placeholder="e.g. Division Reading Recovery Camp" />
+                                    <div id="activity-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                         </div>
@@ -157,6 +166,7 @@
                                         </span>
                                     </div>
                                     <input type="number" class="input w-full" name="amount" />
+                                    <div id="amount-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="col-span-12 md:col-span-4">
@@ -174,6 +184,7 @@
                                         <option value="3">Reports/Meetings/Monitoring</option>
                                         <option value="4">Development</option>
                                     </select>
+                                    <div id="activity_type-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="col-span-12 md:col-span-4">
@@ -188,6 +199,7 @@
                                         <option>Tier 1 : Mandated</option>
                                         <option>Tier 2 : Initiated</option>
                                     </select>
+                                    <div id="tier_category-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                         </div>
@@ -199,14 +211,15 @@
                                             EQUITY INDEX (1-5)
                                         </span>
                                     </div>
-                                    <select class="select select-bordered w-full" name="equity_index">
-                                        <option disabled selected>Select score</option>
+                                    <select class="select select-bordered w-full" name="equity_index" id="equity_index">
+                                        <option value="0" disabled selected>Select score</option>
                                         <option value="1">1 : Minimal equity impact</option>
                                         <option value="2">2 : Low equity impact</option>
                                         <option value="3">3 : Moderate equity impact</option>
                                         <option value="4">4 : High equity impact</option>
                                         <option value="5">5 : Transformative equity impact</option>
                                     </select>
+                                    <div id="equity_index-error" class="error-message label-text-alt text-error"></div>
                                 </label>
                             </div>
                             <div class="col-span-12 md:col-span-6">
@@ -216,14 +229,17 @@
                                             TARGET ALIGNMENT (1-5)
                                         </span>
                                     </div>
-                                    <select class="select select-bordered w-full" name="target_alignment">
-                                        <option disabled selected>Select score</option>
+                                    <select class="select select-bordered w-full" name="target_alignment"
+                                        id="target_alignment">
+                                        <option value="0" disabled selected>Select score</option>
                                         <option value="1">1 : Weak alignment to target</option>
                                         <option value="2">2 : Slight alignment to target</option>
                                         <option value="3">3 : Moderate alignment to target</option>
                                         <option value="4">4 : Strong alignment to target</option>
                                         <option value="5">5 : Direct, full alignment to target</option>
                                     </select>
+                                    <div id="target_alignment-error" class="error-message label-text-alt text-error">
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -232,24 +248,28 @@
                             <div class="card bg-base-100 shadow-sm">
                                 <div class="card-body">
                                     <div class="grid grid-cols-12 gap-4">
-                                        <div class="col-span-12 md:col-span-9">
-                                            <h2 class="text-xl font-bold" id="investment_priority">0</h2>
+                                        <div class="col-span-12 md:col-span-10">
+                                            <h2 class="text-xl font-bold" id="investment_priority">-</h2>
                                             <p
                                                 class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                                 Investment Priority (Equity × Alignment, 1–25)
                                             </p>
                                         </div>
-                                        <div class="col-span-12 md:col-span-3">
-                                            <h2 class="text-md" id="investment_priority">Remarks</h2>
-                                            <span class="badge bg-neutral text-white" id="remarks">Awaiting
-                                                Response</span>
+                                        <div class="col-span-12 md:col-span-2">
+                                            <h2 class="text-md">Remarks</h2>
+                                            <span class="badge badge-soft badge-neutral" id="remarks">
+                                                Awaiting Response
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="level" id="level" />
+                        <input type="hidden" name="score" id="score" />
                         <div class=" form-control mt-6">
-                            <button type="submit" class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
+                            <button type="submit" id="saveBtn"
+                                class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
                                 Save Proposal
                             </button>
                             <button type="reset" class="btn bg-default">
@@ -555,9 +575,85 @@ function target(id) {
     });
 }
 
+$('#equity_index').change(function() {
+    computePriorityLevel();
+});
+
+$('#target_alignment').change(function() {
+    computePriorityLevel();
+});
+
 //compute the investment priority
 function computePriorityLevel() {
+    let e = $('#equity_index').val();
+    let t = $('#target_alignment').val();
+    let score = e * t;
+    $('#investment_priority').text(score);
+    $('#score').attr("value", score);
 
+    $('#remarks').removeClass('border-neutral badge-neutral border-success badge-success border-warning badge-warning');
+
+    if (score >= 16) {
+        // High - success
+        $('#level').attr("value", 1);
+        $('#remarks').addClass('border-success badge-success').text('High Priority');
+    } else if (score >= 8) {
+        // Moderate - warning
+        $('#level').attr("value", 2);
+        $('#remarks').addClass('border-warning badge-warning').text('Moderate Priority');
+    } else {
+        // Low - secondary
+        $('#level').attr("value", 3);
+        $('#remarks').addClass('border-neutral badge-neutral').text('Low Priority');
+    }
 }
+
+$('#frmProposal').submit(function(e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    $('.error-message').html('');
+    let btn = $('#saveBtn');
+    $.ajax({
+        url: "{{ route('proposals.save') }}",
+        method: "POST",
+        data: data,
+        beforeSend: function() {
+            btn.prop('disabled', true);
+            btn.html(`
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Saving...</span>
+                `);
+        },
+        success: function(response) {
+            if (response.status === 200) {
+                $('#frmProposal')[0].reset();
+                alertify.alert(
+                    'Success',
+                    response.message,
+                    function() {
+                        location.reload();
+                    }
+                );
+            } else {
+                var errors = response.errors;
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field][0] + '</p>');
+                    $('[name="' + field + '"]').addClass('is-invalid');
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            alert(xhr.responseJSON.message + " Please try again later");
+        },
+        complete: function() {
+            // Use your variable here to reset the button
+            btn.prop('disabled', false);
+            btn.html('<span class="btn-text">Save Proposal</span>');
+        }
+    });
+});
 </script>
 @endsection

@@ -64,4 +64,9 @@ class Dashboard
     {
         return Target::where('project_id',$id)->get();
     }
+
+    public function saveProposal($data)
+    {
+        return "";
+    }
 }
