@@ -18,7 +18,7 @@
             @endAuth
         </div>
         <div class="grid gap-3">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <!-- Card 1: Total Proposals -->
                 <div class="card bg-base-100 shadow-sm border border-t-4">
                     <div class="card-body">
@@ -124,7 +124,7 @@
                                                 PROPONENT
                                             </span>
                                         </div>
-                                        <input type="search" class="input" name="proponent"
+                                        <input type="search" class="input w-full" name="proponent"
                                             placeholder="Search proponent" value="{{ request('proponent') }}" />
                                     </label>
                                 </div>
