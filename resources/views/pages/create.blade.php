@@ -17,7 +17,6 @@
         </div>
         <form method="POST" class="grid gap-4" id="frmProposal">
             @csrf
-            <input type="hidden" name="id" value="{{ $proposal->proposal_id }}" />
             <div class="grid-cols-12">
                 <div class="card bg-base-100 shadow-sm card-body grid gap-4">
                     <div class="grid-cols-12">
@@ -35,13 +34,9 @@
                                 </div>
                                 <select class="select select-bordered w-full" name="goal">
                                     <option disabled selected>Select a goal</option>
-                                    <option value="ARAL" {{ $proposal->goal == "ARAL" ? 'selected' : '' }}>ARAL
-                                        (Academic
-                                        Excellence)</option>
-                                    <option value="ALAGA" {{ $proposal->goal == "ALAGA" ? 'selected' : '' }}>ALAGA
-                                        (Holistic Well-being & Safety)</option>
-                                    <option value="ASAL" {{ $proposal->goal == "ASAL" ? 'selected' : '' }}>ASAL
-                                        (Character & Values-driven Formation)</option>
+                                    <option value="ARAL">ARAL (Academic Excellence)</option>
+                                    <option value="ALAGA">ALAGA (Holistic Well-being & Safety)</option>
+                                    <option value="ASAL">ASAL (Character & Values-driven Formation)</option>
                                 </select>
                                 <div id="goal-error" class="error-message label-text-alt text-error"></div>
                             </label>
@@ -152,8 +147,7 @@
                                 </span>
                             </div>
                             <input type="text" class="input w-full" name="proponent"
-                                placeholder="Office, unit or school proposing this"
-                                value="{{ $proposal->proponent }}" />
+                                placeholder="Office, unit or school proposing this" />
                             <div id="proponent-error" class="error-message label-text-alt text-error"></div>
                         </label>
                     </div>
@@ -165,8 +159,7 @@
                                 </span>
                             </div>
                             <input type="text" class="input w-full" name="activity"
-                                placeholder="e.g. Division Reading Recovery Camp"
-                                value="{{ $proposal->activity_title }}" />
+                                placeholder="e.g. Division Reading Recovery Camp" />
                             <div id="activity-error" class="error-message label-text-alt text-error"></div>
                         </label>
                     </div>
@@ -179,7 +172,7 @@
                                     PROPOSED AMOUNT (₱)
                                 </span>
                             </div>
-                            <input type="number" class="input w-full" name="amount" value="{{ $proposal->amount }}" />
+                            <input type="number" class="input w-full" name="amount" />
                             <div id="amount-error" class="error-message label-text-alt text-error"></div>
                         </label>
                     </div>
@@ -192,15 +185,11 @@
                             </div>
                             <select class="select select-bordered w-full" name="activity_type">
                                 <option disabled selected>Select type</option>
-                                <option value="1" {{ $proposal->activity_type == 1 ? 'selected' : '' }}>Capacity
-                                    Building/Competitions/Conferences
+                                <option value="1">Capacity Building/Competitions/Conferences
                                 </option>
-                                <option value="2" {{ $proposal->activity_type == 2 ? 'selected' : '' }}>Activity/Event
-                                </option>
-                                <option value="3" {{ $proposal->activity_type == 3 ? 'selected' : '' }}>
-                                    Reports/Meetings/Monitoring</option>
-                                <option value="4" {{ $proposal->activity_type == 4 ? 'selected' : '' }}>Development
-                                </option>
+                                <option value="2">Activity/Event</option>
+                                <option value="3">Reports/Meetings/Monitoring</option>
+                                <option value="4">Development</option>
                             </select>
                             <div id="activity_type-error" class="error-message label-text-alt text-error"></div>
                         </label>
@@ -214,10 +203,8 @@
                             </div>
                             <select class="select select-bordered w-full" name="tier_category">
                                 <option disabled selected>Select Tier</option>
-                                <option {{ $proposal->tier == "Tier 1 : Mandated" ? 'selected' : '' }}>Tier 1 : Mandated
-                                </option>
-                                <option {{ $proposal->tier == "Tier 2 : Initiated" ? 'selected' : '' }}>Tier 2 :
-                                    Initiated</option>
+                                <option>Tier 1 : Mandated</option>
+                                <option>Tier 2 : Initiated</option>
                             </select>
                             <div id="tier_category-error" class="error-message label-text-alt text-error"></div>
                         </label>
@@ -288,7 +275,7 @@
                 <div class=" form-control mt-6">
                     <button type="submit" id="saveBtn"
                         class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
-                        Save Changes
+                        Save Proposal
                     </button>
                     <button type="reset" class="btn bg-default">
                         Reset
@@ -451,7 +438,7 @@ $('#frmProposal').submit(function(e) {
     $('.error-message').html('');
     let btn = $('#saveBtn');
     $.ajax({
-        url: "{{ route('proposals.update') }}",
+        url: "{{ route('proposals.save') }}",
         method: "POST",
         data: data,
         beforeSend: function() {
@@ -471,7 +458,7 @@ $('#frmProposal').submit(function(e) {
                     'Success',
                     response.message,
                     function() {
-                        location.href = "{{ url('/') }}";
+                        location.reload();
                     }
                 );
             } else {
@@ -488,7 +475,7 @@ $('#frmProposal').submit(function(e) {
         complete: function() {
             // Use your variable here to reset the button
             btn.prop('disabled', false);
-            btn.html('<span class="btn-text">Save Changes</span>');
+            btn.html('<span class="btn-text">Save Proposal</span>');
         }
     });
 });

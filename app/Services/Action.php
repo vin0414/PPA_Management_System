@@ -1,12 +1,15 @@
 <?php
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Lead_Measure;
 use App\Models\Output;
 use App\Models\Project;
 use App\Models\Strategy;
 use App\Models\Target;
+use App\Models\Roles;
+use App\Models\User;
+use App\Models\Assignment;
 
 class Action
 {
@@ -115,5 +118,57 @@ class Action
         return DB::table('targets')
         ->where('target_id',$id)
         ->delete();
+    }
+
+    public function saveRole($data)
+    {
+        return Roles::create([
+            'role_name'=>$data['role']
+        ]);
+    }
+
+    public function fetchUsers()
+    {
+        return DB::table('users as u')
+            ->join('assignment as a','a.id','=','u.id')
+            ->join('roles as r','r.role_id','=','a.role_id')
+            ->select('u.id','u.name','u.email','u.email_verified_at','r.role_name')
+            ->get();
+    }
+
+    public function deactivateAccount($id)
+    {
+        return DB::table('users')
+        ->where('id',$id)
+        ->update([
+            'email_verified_at'=>null
+        ]);
+    }
+
+    public function saveAccount($data)
+    {
+        try {
+            return DB::transaction(function() use ($data) {
+                $user = User::create([
+                    'name'              => $data['account_name'],
+                    'email'             => $data['email'],
+                    'email_verified_at' => now(),
+                    'password'          => Hash::make('Abc12345?')
+                ]);
+
+                Assignment::create([
+                    'role_id' => $data['role_name'],
+                    'id'      => $user->id
+                ]);
+
+                // Return the user so DB::transaction passes it out
+                return $user;
+            });
+        } catch (\Exception $e) {
+            // Something went wrong (e.g., duplicate email, database connection issue)
+            // The transaction has automatically rolled back
+            return false;
+        }
+
     }
 }

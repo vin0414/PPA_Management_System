@@ -24,7 +24,9 @@
             </div>
             <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li><a href="{{ url('profile') }}">My Profile</a></li>
+                @if($permissions->role_name === "Super-admin")
                 <li><a href="{{ url('settings') }}">System Settings</a></li>
+                @endif
                 <li><a href="{{ url('logout') }}">Logout</a></li>
             </ul>
         </div>

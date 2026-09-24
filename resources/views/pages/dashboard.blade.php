@@ -3,657 +3,348 @@
 @section('content')
 <div class="page-body">
     <div class="container p-4">
-        <div class="tabs tabs-box">
+        <div class="flex justify-between items-center mb-4">
+            <div class="font-bold">{{ $title }}</div>
             @auth
-            <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
-                aria-label="Activity Proposal Form" checked="checked" />
-            <div class="tab-content">
-                <form method="POST" class="grid gap-4" id="frmProposal">
-                    @csrf
-                    <div class="grid-cols-12">
-                        <div class="card bg-base-100 shadow-sm card-body grid gap-4">
-                            <div class="grid-cols-12">
-                                A. Program Logic Alignment<br />
-                                <small>Select the DEDP framework path this activity supports. Each level filters the
-                                    next.</small>
-                            </div>
-                            <div class="grid grid-cols-12 gap-4">
-                                <div class="col-span-12 md:col-span-4">
-                                    <label class="form-control w-full">
-                                        <div class="label py-0.5">
-                                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                                1. GOAL
-                                            </span>
-                                        </div>
-                                        <select class="select select-bordered w-full" name="goal">
-                                            <option disabled selected>Select a goal</option>
-                                            <option value="ARAL">ARAL (Academic Excellence)</option>
-                                            <option value="ALAGA">ALAGA (Holistic Well-being & Safety)</option>
-                                            <option value="ASAL">ASAL (Character & Values-driven Formation)</option>
-                                        </select>
-                                        <div id="goal-error" class="error-message label-text-alt text-error"></div>
-                                    </label>
-                                </div>
-                                <div class="col-span-12 md:col-span-4">
-                                    <label class="form-control w-full">
-                                        <div class="label py-0.5">
-                                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                                2. PILLAR
-                                            </span>
-                                        </div>
-                                        <select class="select select-bordered w-full" name="pillar" id="pillar">
-                                            <option disabled selected>Select a pillar</option>
-                                            <option value="LINANG">LINANG (Learning-Focus Delivery & Resources)</option>
-                                            <option value="AGAPAY">AGAPAY (Access, Equity, & Inclusion)</option>
-                                            <option value="BUKLOD">BUKLOD (Stakeholder's Engagement)</option>
-                                            <option value="OPTIMA">OPTIMA (E-Governance and Digital Transformation)
-                                            </option>
-                                            <option value="NUMBALIK">NUMBALIK (Safety, Well-Being & Disaster
-                                                Preparedness)
-                                            </option>
-                                            <option value="GALING">GALING (Human Resource Excellence)</option>
-                                        </select>
-                                        <div id="pillar-error" class="error-message label-text-alt text-error"></div>
-                                    </label>
-                                </div>
-                                <div class="col-span-12 md:col-span-4">
-                                    <label class="form-control w-full">
-                                        <div class="label py-0.5">
-                                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                                3. PROJECT
-                                            </span>
-                                        </div>
-                                        <select class="select select-bordered w-full" name="project" id="project">
-                                            <option disabled selected>Select a project</option>
-                                        </select>
-                                        <div id="project-error" class="error-message label-text-alt text-error"></div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="grid-cols-12">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            4. LEAD MEASURE
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="lead_measure" id="lead_measure">
-                                        <option disabled selected>Select a lead measure</option>
-                                    </select>
-                                    <div id="lead_measure-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="grid-cols-12">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            5. STRATEGY
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="strategy" id="strategy">
-                                        <option disabled selected>Select a strategy</option>
-                                    </select>
-                                    <div id="strategy-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="grid-cols-12">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            6. Output
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="output" id="output">
-                                        <option disabled selected>Select an output</option>
-                                    </select>
-                                    <div id="output-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="grid-cols-12">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            7. TARGET
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="target" id="target">
-                                        <option disabled selected>Select a target</option>
-                                    </select>
-                                    <div id="target-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card bg-base-100 shadow-sm card-body grid-cols-12">
-                        <div class="grid-cols-12">
-                            B. Activity Proposal<br />
-                            <small>Details of the proposed program, project, or activity (PPA) and its automated
-                                priority
-                                scoring.</small>
-                        </div>
-                        <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 md:col-span-6">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            PROPONENT
-                                        </span>
-                                    </div>
-                                    <input type="text" class="input w-full" name="proponent"
-                                        placeholder="Office, unit or school proposing this" />
-                                    <div id="proponent-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="col-span-12 md:col-span-6">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            TITLE OF ACTIVITY
-                                        </span>
-                                    </div>
-                                    <input type="text" class="input w-full" name="activity"
-                                        placeholder="e.g. Division Reading Recovery Camp" />
-                                    <div id="activity-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 md:col-span-4">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            PROPOSED AMOUNT (₱)
-                                        </span>
-                                    </div>
-                                    <input type="number" class="input w-full" name="amount" />
-                                    <div id="amount-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="col-span-12 md:col-span-4">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-semibold text-base-content/70">
-                                            ACTIVITY TYPE
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="activity_type">
-                                        <option disabled selected>Select type</option>
-                                        <option value="1">Capacity Building/Competitions/Conferences
-                                        </option>
-                                        <option value="2">Activity/Event</option>
-                                        <option value="3">Reports/Meetings/Monitoring</option>
-                                        <option value="4">Development</option>
-                                    </select>
-                                    <div id="activity_type-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="col-span-12 md:col-span-4">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                            TIER CATEGORY
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="tier_category">
-                                        <option disabled selected>Select Tier</option>
-                                        <option>Tier 1 : Mandated</option>
-                                        <option>Tier 2 : Initiated</option>
-                                    </select>
-                                    <div id="tier_category-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-12 gap-4 mb-3">
-                            <div class="col-span-12 md:col-span-6">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                            EQUITY INDEX (1-5)
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="equity_index" id="equity_index">
-                                        <option value="0" disabled selected>Select score</option>
-                                        <option value="1">1 : Minimal equity impact</option>
-                                        <option value="2">2 : Low equity impact</option>
-                                        <option value="3">3 : Moderate equity impact</option>
-                                        <option value="4">4 : High equity impact</option>
-                                        <option value="5">5 : Transformative equity impact</option>
-                                    </select>
-                                    <div id="equity_index-error" class="error-message label-text-alt text-error"></div>
-                                </label>
-                            </div>
-                            <div class="col-span-12 md:col-span-6">
-                                <label class="form-control w-full">
-                                    <div class="label py-0.5">
-                                        <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                            TARGET ALIGNMENT (1-5)
-                                        </span>
-                                    </div>
-                                    <select class="select select-bordered w-full" name="target_alignment"
-                                        id="target_alignment">
-                                        <option value="0" disabled selected>Select score</option>
-                                        <option value="1">1 : Weak alignment to target</option>
-                                        <option value="2">2 : Slight alignment to target</option>
-                                        <option value="3">3 : Moderate alignment to target</option>
-                                        <option value="4">4 : Strong alignment to target</option>
-                                        <option value="5">5 : Direct, full alignment to target</option>
-                                    </select>
-                                    <div id="target_alignment-error" class="error-message label-text-alt text-error">
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid-cols-12">
-                            <span class="text-warning font-bold">AUTOMATED COMPUTATION</span>
-                            <div class="card bg-base-100 shadow-sm">
-                                <div class="card-body">
-                                    <div class="grid grid-cols-12 gap-4">
-                                        <div class="col-span-12 md:col-span-10">
-                                            <h2 class="text-xl font-bold" id="investment_priority">-</h2>
-                                            <p
-                                                class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
-                                                Investment Priority (Equity × Alignment, 1–25)
-                                            </p>
-                                        </div>
-                                        <div class="col-span-12 md:col-span-2">
-                                            <h2 class="text-md">Remarks</h2>
-                                            <span class="badge badge-soft badge-neutral" id="remarks">
-                                                Awaiting Response
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="level" id="level" />
-                        <input type="hidden" name="score" id="score" />
-                        <div class=" form-control mt-6">
-                            <button type="submit" id="saveBtn"
-                                class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
-                                Save Proposal
-                            </button>
-                            <button type="reset" class="btn bg-default">
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            <div class="flex justify-end">
+                <a href="{{ route('proposals.create') }}" class="btn bg-blue-950 text-white">
+                    <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                        class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Create
+                </a>
             </div>
             @endAuth
-            <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
-                aria-label="Consolidated Dashboard" @guest checked="checked" @endguest />
-            <div class="tab-content">
-                <div class="grid gap-3">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        <!-- Card 1: Total Proposals -->
-                        <div class="card bg-base-100 shadow-sm border border-t-4">
-                            <div class="card-body">
-                                <h2 class="text-xl font-bold">{{ $total }}</h2>
-                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Total
-                                    Proposals</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Budget -->
-                        <div class="card bg-base-100 shadow-sm border border-t-4">
-                            <div class="card-body">
-                                <h2 class="text-xl font-bold">₱ {{ number_format($budget,2) }}</h2>
-                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Proposed
-                                    Budget</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: High Priority -->
-                        <div class="card bg-base-100 shadow-sm border border-t-4">
-                            <div class="card-body">
-                                <h2 class="text-xl font-bold">{{ $high }}</h2>
-                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">High
-                                    Priority</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Moderate Priority -->
-                        <div class="card bg-base-100 shadow-sm border border-t-4">
-                            <div class="card-body">
-                                <h2 class="text-xl font-bold">{{ $moderate }}</h2>
-                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Moderate
-                                    Priority</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 5: New Metric (e.g., Low Priority or Approved) -->
-                        <div class="card bg-base-100 shadow-sm border border-t-4">
-                            <div class="card-body">
-                                <h2 class="text-xl font-bold">{{ $low }}</h2>
-                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Low
-                                    Priority</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-cols-12">
-                        <div class="card bg-base-100 w-full shadow-sm">
-                            <div class="card-body">
-                                <form method="GET" class="grid" id="form">
-                                    <div class="grid grid-cols-12 gap-4 mb-2">
-                                        <div class="col-span-12 md:col-span-2">
-                                            <label class="form-control w-full">
-                                                <div class="label py-0.5">
-                                                    <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                                        PROJECT
-                                                    </span>
-                                                </div>
-                                                <select class="select select-bordered w-full" name="project">
-                                                    <option disabled selected>All Projects</option>
-                                                    <option>I-CARE</option>
-                                                    <option>SINULID</option>
-                                                    <option>SAGIP</option>
-                                                    <option>LINGAP</option>
-                                                    <option>ISSHED</option>
-                                                    <option>UX</option>
-                                                    <option>SALIKSIK</option>
-                                                    <option>QMS-EOMS</option>
-                                                    <option>OK sa DepEd</option>
-                                                    <option>SECURE-PUSO</option>
-                                                    <option>DRRM-SAFE</option>
-                                                    <option>HUMANE</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-span-12 md:col-span-2">
-                                            <label class="form-control w-full">
-                                                <div class="label py-0.5">
-                                                    <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                                        PROPONENT
-                                                    </span>
-                                                </div>
-                                                <input type="search" class="input" name="proponent"
-                                                    placeholder="Search proponent" />
-                                            </label>
-                                        </div>
-                                        <div class="col-span-12 md:col-span-2">
-                                            <label class="form-control w-full">
-                                                <div class="label py-0.5">
-                                                    <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                                        TIER CATEGORY
-                                                    </span>
-                                                </div>
-                                                <select class="select select-bordered w-full" name="tier">
-                                                    <option disabled selected>All Tiers</option>
-                                                    <option>Tier 1 : Mandated</option>
-                                                    <option>Tier 2 : Initiated</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-span-12 md:col-span-4">
-                                            <label class="form-control w-full">
-                                                <div class="label py-0.5">
-                                                    <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                                        ACTIVITY TYPE
-                                                    </span>
-                                                </div>
-                                                <select class="select select-bordered w-full" name="activity">
-                                                    <option disabled selected>All Types</option>
-                                                    <option value="1">Capacity Building/Competitions/Conferences
-                                                    </option>
-                                                    <option value="2">Activity/Event</option>
-                                                    <option value="3">Reports/Meetings/Monitoring</option>
-                                                    <option value="4">Development</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-span-12 md:col-span-2">
-                                            <label class="form-control w-full">
-                                                <div class="label py-0.5">
-                                                    <span class="label-text-alt text-xs font-bold text-base-content/70">
-                                                        PRIORITY LEVEL
-                                                    </span>
-                                                </div>
-                                                <select class="select select-bordered w-full" name="priority">
-                                                    <option disabled selected>All Levels</option>
-                                                    <option value="1">High Priority</option>
-                                                    <option value="2">Moderate Priority</option>
-                                                    <option value="3">Low Priority</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <button type="submit"
-                                                class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
-                                                Search
-                                            </button>
-                                            <button type="reset" class="btn bg-default">
-                                                Clear Filters
-                                            </button>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <a href="" class="btn btn-default">Export CSV</a>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-cols-12">
-                        <div class="overflow-hidden rounded-md border border-gray-200 shadow-sm">
-                            <table class="table table-zebra table-xs w-full" id="list">
-                                <thead class="bg-blue-900 text-white text-xs">
-                                    <tr>
-                                        <th>PROPONENT</th>
-                                        <th>TITLE</th>
-                                        <th>GOAL</th>
-                                        <th>PILLAR</th>
-                                        <th>PROJECT</th>
-                                        <th>TIER</th>
-                                        <th>AMOUNT</th>
-                                        <th>SCORE</th>
-                                        <th>PRIORITY</th>
-                                        <th>ACTIONS</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+        </div>
+        <div class="grid gap-3">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- Card 1: Total Proposals -->
+                <div class="card bg-base-100 shadow-sm border border-t-4">
+                    <div class="card-body">
+                        <h2 class="text-xl font-bold">{{ $total }}</h2>
+                        <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Total
+                            Proposals</p>
                     </div>
                 </div>
+
+                <!-- Card 2: Budget -->
+                <div class="card bg-base-100 shadow-sm border border-t-4">
+                    <div class="card-body">
+                        <h2 class="text-xl font-bold">₱ {{ number_format($budget,2) }}</h2>
+                        <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Proposed
+                            Budget</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: High Priority -->
+                <div class="card bg-base-100 shadow-sm border border-t-4">
+                    <div class="card-body">
+                        <h2 class="text-xl font-bold">{{ $high }}</h2>
+                        <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">High
+                            Priority</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Moderate Priority -->
+                <div class="card bg-base-100 shadow-sm border border-t-4">
+                    <div class="card-body">
+                        <h2 class="text-xl font-bold">{{ $moderate }}</h2>
+                        <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Moderate
+                            Priority</p>
+                    </div>
+                </div>
+
+                <!-- Card 5: New Metric (e.g., Low Priority or Approved) -->
+                <div class="card bg-base-100 shadow-sm border border-t-4">
+                    <div class="card-body">
+                        <h2 class="text-xl font-bold">{{ $low }}</h2>
+                        <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">Low
+                            Priority</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-cols-12">
+                <div class="card bg-base-100 w-full shadow-sm">
+                    <div class="card-body">
+                        <form method="GET" class="grid" id="form">
+                            <div class="grid grid-cols-12 gap-4 mb-2">
+                                <div class="col-span-12 md:col-span-2">
+                                    <label class="form-control w-full">
+                                        <div class="label py-0.5">
+                                            <span class="label-text-alt text-xs font-bold text-base-content/70">
+                                                PROJECT
+                                            </span>
+                                        </div>
+                                        <select class="select select-bordered w-full" name="project">
+                                            <option value="" selected>All Projects</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "I-CARE") ? 'selected' : '' }}>
+                                                I-CARE</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "SINULID") ? 'selected' : '' }}>
+                                                SINULID</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "SAGIP") ? 'selected' : '' }}>
+                                                SAGIP</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "LINGAP") ? 'selected' : '' }}>
+                                                LINGAP</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "ISSHED") ? 'selected' : '' }}>
+                                                ISSHED</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "UX") ? 'selected' : '' }}>
+                                                UX</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "SALIKSIK") ? 'selected' : '' }}>
+                                                SALIKSIK</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "QMS-EOMS") ? 'selected' : '' }}>
+                                                QMS-EOMS</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "OK sa DepEd") ? 'selected' : '' }}>
+                                                OK sa DepEd</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "SECURE-PUSO") ? 'selected' : '' }}>
+                                                SECURE-PUSO</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "DRRM-SAFE") ? 'selected' : '' }}>
+                                                DRRM-SAFE</option>
+                                            <option
+                                                {{ (isset($_GET['project']) && $_GET['project'] == "HUMANE") ? 'selected' : '' }}>
+                                                HUMANE</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-span-12 md:col-span-2">
+                                    <label class="form-control w-full">
+                                        <div class="label py-0.5">
+                                            <span class="label-text-alt text-xs font-bold text-base-content/70">
+                                                PROPONENT
+                                            </span>
+                                        </div>
+                                        <input type="search" class="input" name="proponent"
+                                            placeholder="Search proponent" value="{{ request('proponent') }}" />
+                                    </label>
+                                </div>
+                                <div class="col-span-12 md:col-span-2">
+                                    <label class="form-control w-full">
+                                        <div class="label py-0.5">
+                                            <span class="label-text-alt text-xs font-bold text-base-content/70">
+                                                TIER CATEGORY
+                                            </span>
+                                        </div>
+                                        <select class="select select-bordered w-full" name="tier">
+                                            <option value="" selected>All Tiers</option>
+                                            <option
+                                                {{ (isset($_GET['tier']) && $_GET['tier'] == "Tier 1 : Mandated") ? 'selected' : '' }}>
+                                                Tier 1 : Mandated</option>
+                                            <option
+                                                {{ (isset($_GET['tier']) && $_GET['tier'] == "Tier 2 : Initiated") ? 'selected' : '' }}>
+                                                Tier 2 : Initiated</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label class="form-control w-full">
+                                        <div class="label py-0.5">
+                                            <span class="label-text-alt text-xs font-bold text-base-content/70">
+                                                ACTIVITY TYPE
+                                            </span>
+                                        </div>
+                                        <select class="select select-bordered w-full" name="activity">
+                                            <option value="" selected>All Types</option>
+                                            <option value="1"
+                                                {{ (isset($_GET['activity']) && $_GET['activity'] == "1") ? 'selected' : '' }}>
+                                                Capacity Building/Competitions/Conferences
+                                            </option>
+                                            <option value="2"
+                                                {{ (isset($_GET['activity']) && $_GET['activity'] == "2") ? 'selected' : '' }}>
+                                                Activity/Event</option>
+                                            <option value="3"
+                                                {{ (isset($_GET['activity']) && $_GET['activity'] == "3") ? 'selected' : '' }}>
+                                                Reports/Meetings/Monitoring</option>
+                                            <option value="4"
+                                                {{ (isset($_GET['activity']) && $_GET['activity'] == "4") ? 'selected' : '' }}>
+                                                Development</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-span-12 md:col-span-2">
+                                    <label class="form-control w-full">
+                                        <div class="label py-0.5">
+                                            <span class="label-text-alt text-xs font-bold text-base-content/70">
+                                                PRIORITY LEVEL
+                                            </span>
+                                        </div>
+                                        <select class="select select-bordered w-full" name="priority">
+                                            <option value="" selected>All Levels</option>
+                                            <option value="1"
+                                                {{ (isset($_GET['priority']) && $_GET['priority'] == "1") ? 'selected' : '' }}>
+                                                High Priority</option>
+                                            <option value="2"
+                                                {{ (isset($_GET['priority']) && $_GET['priority'] == "2") ? 'selected' : '' }}>
+                                                Moderate Priority</option>
+                                            <option value="3"
+                                                {{ (isset($_GET['priority']) && $_GET['priority'] == "3") ? 'selected' : '' }}>
+                                                Low Priority</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <button type="submit"
+                                        class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white">
+                                        Search
+                                    </button>
+                                    <a href="{{ url('/') }}" class="btn bg-default">
+                                        Clear Filters
+                                    </a>
+                                </div>
+                                <div class="flex justify-end">
+                                    <a href="{{ url('download') }}" class="btn btn-default">Export
+                                        CSV</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-cols-12">
+                <div class="overflow-visible rounded-md border border-gray-200 shadow-sm mb-4">
+                    <table class="table overflow-visible table-zebra table-sm w-full" id="list">
+                        <thead class="bg-blue-900 text-white text-xs">
+                            <tr>
+                                <th>PROPONENT</th>
+                                <th>TITLE</th>
+                                <th>GOAL</th>
+                                <th>PILLAR</th>
+                                <th>PROJECT</th>
+                                <th>TIER</th>
+                                <th>AMOUNT</th>
+                                <th>SCORE</th>
+                                <th>PRIORITY</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($list as $row)
+                            <tr>
+                                <td>{{ $row->proponent }}</td>
+                                <td>{{ $row->activity_title }}</td>
+                                <td>{{ $row->goal }}</td>
+                                <td>{{ $row->pillar }}</td>
+                                <td>{{ $row->project_details }}</td>
+                                <td>{{ $row->tier }}</td>
+                                <td>{{ number_format($row->amount,2) }}</td>
+                                <td>{{ $row->score }}</td>
+                                <td>
+                                    @if($row->priority_level==1)
+                                    <span class="badge badge-soft border-success badge-success text-xs">High</span>
+                                    @elseif($row->priority_level==2)
+                                    <span class="badge badge-soft border-warning badge-warning text-xs">Moderate</span>
+                                    @else
+                                    <span class="badge badge-soft border-neutral badge-neutral text-xs">Low</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @auth
+                                    @if($permissions->role_name === "Super-admin")
+                                    <div class="dropdown">
+                                        <div tabindex="0" role="button" class="btn mr-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 24 24">
+                                                <title>more</title>
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M5 10c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2m14 0c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2m-7 0c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2" />
+                                            </svg>
+                                            More
+                                        </div>
+                                        <ul tabindex="-1"
+                                            class="dropdown-content menu bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
+                                            <li>
+                                                <a
+                                                    href="{{ url('proposals/edit',['token'=>encrypt($row->proposal_id)]) }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <title>edit</title>
+                                                        <path fill="currentColor"
+                                                            d="M5 21h14c1.1 0 2-.9 2-2v-7h-2v7H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2" />
+                                                        <path fill="currentColor"
+                                                            d="M7 13v3c0 .55.45 1 1 1h3c.27 0 .52-.11.71-.29l9-9a.996.996 0 0 0 0-1.41l-3-3a.996.996 0 0 0-1.41 0l-9.01 8.99A1 1 0 0 0 7 13m10-7.59L18.59 7L17.5 8.09L15.91 6.5zm-8 8l5.5-5.5l1.59 1.59l-5.5 5.5H9z" />
+                                                    </svg>
+                                                    Edit Proposal
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="text-error remove"
+                                                    value="{{ $row->proposal_id }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <title>delete</title>
+                                                        <path fill="currentColor"
+                                                            d="M18 19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4V4h4.5l1-1h4l1 1H19v3h-1zM6 7v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V7zm12-1V5h-4l-1-1h-3L9 5H5v1zM8 9h1v10H8zm6 0h1v10h-1z" />
+                                                    </svg>
+                                                    Remove
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    @endif
+                                    @endAuth
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="10" class="text-center">No Available Proposal(s)</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                {{ $list->links('components.pagination') }}
             </div>
         </div>
     </div>
 </div>
 <script>
-$('#pillar').change(function() {
+$('.remove').on('click', function() {
     let value = $(this).val();
-    $.ajax({
-        url: "{{ route('projects.fetch') }}",
-        method: "GET",
-        data: {
-            value: value
-        },
-        success: function(response) {
-            console.log(response.data);
-            let projectSelect = $('#project');
-            projectSelect.empty();
-            projectSelect.append('<option value="" disabled selected>Select a project</option>');
-            $.each(response.data, function(key, project) {
-                projectSelect.append(
-                    `<option value="${project.project_id}">${project.project_details}</option>`
-                );
-            });
-        }
-    });
-});
-
-$('#project').change(function() {
-    lead($(this).val());
-    strategy($(this).val());
-    output($(this).val());
-    target($(this).val());
-});
-
-function lead(id) {
-    $.ajax({
-        url: "{{ route('lead_measure.fetch') }}",
-        method: "GET",
-        data: {
-            value: id
-        },
-        success: function(response) {
-            console.log(response.data);
-            let leadSelect = $('#lead_measure');
-            leadSelect.empty();
-            leadSelect.append('<option value="" disabled selected>Select a lead measure</option>');
-            $.each(response.data, function(key, project) {
-                leadSelect.append(
-                    `<option value="${project.lead_id}">${project.lead}</option>`
-                );
-            });
-        }
-    });
-}
-
-function strategy(id) {
-    $.ajax({
-        url: "{{ route('strategies.fetch') }}",
-        method: "GET",
-        data: {
-            value: id
-        },
-        success: function(response) {
-            console.log(response.data);
-            let stratSelect = $('#strategy');
-            stratSelect.empty();
-            stratSelect.append('<option value="" disabled selected>Select a strategy</option>');
-            $.each(response.data, function(key, project) {
-                stratSelect.append(
-                    `<option value="${project.strategy_id}">${project.name_of_strategy}</option>`
-                );
-            });
-        }
-    });
-}
-
-function output(id) {
-    $.ajax({
-        url: "{{ route('output.fetch') }}",
-        method: "GET",
-        data: {
-            value: id
-        },
-        success: function(response) {
-            console.log(response.data);
-            let outputSelect = $('#output');
-            outputSelect.empty();
-            outputSelect.append('<option value="" disabled selected>Select an output</option>');
-            $.each(response.data, function(key, project) {
-                outputSelect.append(
-                    `<option value="${project.output_id}">${project.output}</option>`
-                );
-            });
-        }
-    });
-}
-
-function target(id) {
-    $.ajax({
-        url: "{{ route('targets.fetch') }}",
-        method: "GET",
-        data: {
-            value: id
-        },
-        success: function(response) {
-            console.log(response.data);
-            let targetSelect = $('#target');
-            targetSelect.empty();
-            targetSelect.append('<option value="" disabled selected>Select a target</option>');
-            $.each(response.data, function(key, project) {
-                targetSelect.append(
-                    `<option value="${project.target_id}">${project.target_details}</option>`
-                );
-            });
-        }
-    });
-}
-
-$('#equity_index').change(function() {
-    computePriorityLevel();
-});
-
-$('#target_alignment').change(function() {
-    computePriorityLevel();
-});
-
-//compute the investment priority
-function computePriorityLevel() {
-    let e = $('#equity_index').val();
-    let t = $('#target_alignment').val();
-    let score = e * t;
-    $('#investment_priority').text(score);
-    $('#score').attr("value", score);
-
-    $('#remarks').removeClass('border-neutral badge-neutral border-success badge-success border-warning badge-warning');
-
-    if (score >= 16) {
-        // High - success
-        $('#level').attr("value", 1);
-        $('#remarks').addClass('border-success badge-success').text('High Priority');
-    } else if (score >= 8) {
-        // Moderate - warning
-        $('#level').attr("value", 2);
-        $('#remarks').addClass('border-warning badge-warning').text('Moderate Priority');
-    } else {
-        // Low - secondary
-        $('#level').attr("value", 3);
-        $('#remarks').addClass('border-neutral badge-neutral').text('Low Priority');
-    }
-}
-
-$('#frmProposal').submit(function(e) {
-    e.preventDefault();
-    let data = $(this).serialize();
-    $('.error-message').html('');
-    let btn = $('#saveBtn');
-    $.ajax({
-        url: "{{ route('proposals.save') }}",
-        method: "POST",
-        data: data,
-        beforeSend: function() {
-            btn.prop('disabled', true);
-            btn.html(`
-                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Saving...</span>
-                `);
-        },
-        success: function(response) {
-            if (response.status === 200) {
-                $('#frmProposal')[0].reset();
-                alertify.alert(
-                    'Success',
-                    response.message,
-                    function() {
-                        location.reload();
-                    }
-                );
-            } else {
-                var errors = response.errors;
-                for (var field in errors) {
-                    $('#' + field + '-error').html('<p>' + errors[field][0] + '</p>');
-                    $('[name="' + field + '"]').addClass('is-invalid');
+    alertify.confirm(
+        'Confirm Deletion',
+        'Are you sure you want to delete this record?',
+        function() {
+            $.ajax({
+                url: "{{ route('proposals.delete') }}",
+                method: "POST",
+                data: {
+                    value: value,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    alertify.alert(
+                        'Success',
+                        response.message,
+                        function() {
+                            location.reload();
+                        }
+                    );
+                },
+                error: function(xhr, status, error) {
+                    // Error notification
+                    alertify.error('Server error: Could not complete request.');
+                    console.error(error);
                 }
-            }
+            });
         },
-        error: function(xhr, status, error) {
-            alert(xhr.responseJSON.message + " Please try again later");
-        },
-        complete: function() {
-            // Use your variable here to reset the button
-            btn.prop('disabled', false);
-            btn.html('<span class="btn-text">Save Proposal</span>');
+        function() {
+            // User clicked Cancel
+            alertify.error('Action cancelled.');
         }
-    });
+    );
 });
 </script>
 @endsection

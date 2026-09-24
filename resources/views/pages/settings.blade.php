@@ -20,6 +20,8 @@
                         <li><a onclick="strategy_modal.showModal()">New Strategy</a></li>
                         <li><a onclick="output_modal.showModal()">New Output</a></li>
                         <li><a onclick="target_modal.showModal()">New Target</a></li>
+                        <li><a onclick="roles_modal.showModal()">New Role</a></li>
+                        <li><a onclick="account_modal.showModal()">New Account</a></li>
                     </ul>
                 </div>
                 <a href="{{ url('/') }}" class="btn bg-blue-950 text-white">
@@ -184,6 +186,44 @@
                                                 d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
                                         </svg>
                                     </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <input type="radio" name="my_tabs_3" class="tab checked:!bg-blue-950 checked:!text-white"
+                aria-label="Accounts & Roles" />
+            <div class="tab-content bg-base-100 border-base-300 p-6">
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra w-full" id="tbl_account">
+                        <thead>
+                            <th>Complete Name</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            @foreach($users as $row)
+                            <tr>
+                                <td>{{ $row->name }}</td>
+                                <td>{{ $row->email }}</td>
+                                <td>{{ $row->role_name }}</td>
+                                <td>
+                                    {!! !empty($row->email_verified_at)
+                                    ? '<span
+                                        class="badge badge-soft border-success badge-success text-xs">ACTIVE</span>'
+                                    : '<span class="badge badge-soft border-error badge-error text-xs">INACTIVE</span>'
+                                    !!}
+                                </td>
+                                <td>
+                                    @if($row->email_verified_at)
+                                    <button type="button" class="btn btn-default deactivate" value="{{ $row->id }}">
+                                        Deactivate
+                                    </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -428,6 +468,93 @@
         </div>
     </div>
 </dialog>
+<dialog id="roles_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">New Role</h3>
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <div class="modal-content">
+            <form method="POST" class="grid gap-2" id="frmRole">
+                @csrf
+                <div class="grid-cols-12">
+                    <label class="form-control w-full">
+                        <div class="label py-0.5">
+                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
+                                ROLE NAME
+                            </span>
+                        </div>
+                        <input type="text" class="input w-full" name="role" />
+                        <div id="role-error" class="error-message label-text-alt text-error"></div>
+                    </label>
+                </div>
+                <div class="grid-cols-12">
+                    <button type="submit" id="btnSubmit"
+                        class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white disabled:opacity-50 flex items-center justify-center gap-2">
+                        <span class="btn-text">Save Entry</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>
+<dialog id="account_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">New Account</h3>
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <div class="modal-content">
+            <form method="POST" class="grid gap-2" id="frmAccount">
+                @csrf
+                <div class="grid-cols-12">
+                    <label class="form-control w-full">
+                        <div class="label py-0.5">
+                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
+                                ACCOUNT NAME
+                            </span>
+                        </div>
+                        <input type="text" class="input w-full" name="account_name" />
+                        <div id="account_name-error" class="error-message label-text-alt text-error"></div>
+                    </label>
+                </div>
+                <div class="grid-cols-12">
+                    <label class="form-control w-full">
+                        <div class="label py-0.5">
+                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
+                                EMAIL ADDRESS
+                            </span>
+                        </div>
+                        <input type="email" class="input w-full" name="email" />
+                        <div id="email-error" class="error-message label-text-alt text-error"></div>
+                    </label>
+                </div>
+                <div class="grid-cols-12">
+                    <label class="form-control w-full">
+                        <div class="label py-0.5">
+                            <span class="label-text-alt text-xs font-semibold text-base-content/70">
+                                ROLE NAME
+                            </span>
+                        </div>
+                        <select class="select select-bordered w-full" name="role_name">
+                            <option value="" disabled selected>Select a role</option>
+                            @foreach($roles as $row)
+                            <option value="{{ $row->role_id }}">{{ $row->role_name }}</option>
+                            @endforeach
+                        </select>
+                        <div id="role_name-error" class="error-message label-text-alt text-error"></div>
+                    </label>
+                </div>
+                <div class="grid-cols-12">
+                    <button type="submit" id="btnRegister"
+                        class="btn bg-blue-900 hover:bg-blue-950 border-blue-900 text-white disabled:opacity-50 flex items-center justify-center gap-2">
+                        <span class="btn-text">Create Account</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>
 <script>
 $('#tbl_project').DataTable({
     "dom": '<"flex justify-between mb-4"lf>rt<"flex justify-between mt-4"ip>'
@@ -444,8 +571,61 @@ $('#tbl_output').DataTable({
 $('#tbl_target').DataTable({
     "dom": '<"flex justify-between mb-4"lf>rt<"flex justify-between mt-4"ip>'
 });
+$('#tbl_account').DataTable({
+    "dom": '<"flex justify-between mb-4"lf>rt<"flex justify-between mt-4"ip>'
+});
 </script>
 <script>
+$('#frmRole').submit(function(e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    $('.error-message').html('');
+    let btn = $('#btnSubmit');
+    $.ajax({
+        url: "{{ route('roles.save') }}",
+        method: "POST",
+        data: data,
+        beforeSend: function() {
+            btn.prop('disabled', true);
+            btn.html(`
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Saving...</span>
+                `);
+        },
+        success: function(response) {
+            if (response.status === 200) {
+                $('#roles_modal')[0].close();
+                $('#frmRole')[0].reset();
+                alertify.alert(
+                    'Success',
+                    response.message,
+                    function() {
+                        location.reload();
+                    }
+                );
+            } else {
+                var errors = response.errors;
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field][0] + '</p>');
+                    $('[name="' + field + '"]').addClass('is-invalid');
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Something went wrong.');
+        },
+        complete: function() {
+            // Use your variable here to reset the button
+            btn.prop('disabled', false);
+            btn.html('<span class="btn-text">Save Entry</span>');
+        }
+    });
+});
+
+
 $('#frmProject').submit(function(e) {
     e.preventDefault();
     let data = $(this).serialize();
@@ -872,6 +1052,92 @@ $('.remove_target').on('click', function() {
             alertify.error('Action cancelled.');
         }
     );
+});
+
+$('.deactivate').on('click', function() {
+    let value = $(this).val();
+    alertify.confirm(
+        'Confirm Deletion',
+        'Are you sure you want to deactivate this account?',
+        function() {
+            $.ajax({
+                url: "{{ route('accounts.deactivate') }}",
+                method: "POST",
+                data: {
+                    value: value,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+
+                    alertify.alert(
+                        'Success',
+                        response.message,
+                        function() {
+                            location.reload();
+                        }
+                    );
+                },
+                error: function(xhr, status, error) {
+                    // Error notification
+                    alertify.error('Server error: Could not complete request.');
+                    console.error(error);
+                }
+            });
+        },
+        function() {
+            // User clicked Cancel
+            alertify.error('Action cancelled.');
+        }
+    );
+});
+
+$('#frmAccount').submit(function(e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    $('.error-message').html('');
+    let btn = $('#btnRegister');
+    $.ajax({
+        url: "{{ route('accounts.save') }}",
+        method: "POST",
+        data: data,
+        beforeSend: function() {
+            btn.prop('disabled', true);
+            btn.html(`
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Registering...</span>
+                `);
+        },
+        success: function(response) {
+            if (response.status === 200) {
+                $('#account_modal')[0].close();
+                $('#frmAccount')[0].reset();
+                alertify.alert(
+                    'Success',
+                    response.message,
+                    function() {
+                        location.reload();
+                    }
+                );
+            } else {
+                var errors = response.errors;
+                for (var field in errors) {
+                    $('#' + field + '-error').html('<p>' + errors[field][0] + '</p>');
+                    $('[name="' + field + '"]').addClass('is-invalid');
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Something went wrong.');
+        },
+        complete: function() {
+            // Use your variable here to reset the button
+            btn.prop('disabled', false);
+            btn.html('<span class="btn-text">Create Account</span>');
+        }
+    });
 });
 </script>
 @endsection

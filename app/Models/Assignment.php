@@ -12,6 +12,6 @@ class Assignment extends Model
     protected $table = "assignment";
     protected $primaryKey = 'assignment_id';
     public $incrementing = true;
-    protected $fillable = ['role__id','id'];
+    protected $fillable = ['role_id','id'];
     public $timestamps = true;
 }
